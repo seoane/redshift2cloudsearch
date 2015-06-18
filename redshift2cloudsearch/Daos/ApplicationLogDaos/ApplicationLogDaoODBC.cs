@@ -23,7 +23,7 @@ namespace redshift2cloudsearch
             int index = 0;
             int fileName = 0;
             String queryString = "Select * from application_logs";
-            List<QueryParameter> _queryParameters = new List<QueryParameter>();
+            List<QueryParameter> _queryParameters = null;
 
             OdbcDataReader _dataReader = ODBCConnection.query("dsn=" + ConfigurationManager.AppSettings["ODBCdsn"], queryString, _queryParameters);
             if (_dataReader.HasRows)
@@ -31,12 +31,12 @@ namespace redshift2cloudsearch
                 {
                     ApplicationLog applicationLog = new ApplicationLog(_dataReader);
                     applicationLogJson += applicationLog2Json(applicationLog) + ",";
+                    index++;
                     if (index==999) {
                          IOUtils.writeFile(applicationLogJson, path+fileName+".json");
                          fileName++;
                          index = 0;
                     }
-                    index++;
                 }
             _dataReader.Close();
             applicationLogJson = applicationLogJson.Remove(applicationLogJson.Length - 1) + "]";

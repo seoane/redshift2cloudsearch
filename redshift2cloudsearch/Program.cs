@@ -11,9 +11,11 @@ namespace redshift2cloudsearch
         static void Main(string[] args)
         {
             String path = "D://Descargas/Jsons/";
-            if (args.Length != 0) path = args[0];
+            if (args.Length != 0) path = args[1];
             IApplicationLogDao _applicationLogDao = DaoFactory.getApplicationLogDao();
+            //_applicationLogDao.parseLasts(path, 576000);
             _applicationLogDao.parseAll(path);
+            Console.ReadLine();
         }
     }
 }
